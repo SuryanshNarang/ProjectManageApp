@@ -22,7 +22,7 @@ This is a full-stack Project Management App built using **Next.js** 🚀 and dep
 
 ## State Management
 
-The application uses a combination of **React Context API** ⚛️ and **Redux** 🔄 to manage the global state. Here’s how the state is handled:
+The application uses a combination of **React Context API** ⚛️ and **Redux** 🔄 to manage the global state. Here's how the state is handled:
 
 ### Redux Setup
 
@@ -49,3 +49,7 @@ The global state is managed using Redux 🔄. Redux is used to manage states lik
        },
      },
    });
+## Prisma & Backend Setup
+
+### Prisma
+Prisma is an ORM that interacts with the database. It defines models (e.g., **User**, **Project**, **Task**) and handles database queries, ensuring data integrity with type-safe operations.
