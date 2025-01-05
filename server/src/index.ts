@@ -6,6 +6,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import { log } from "console";
+import projectRoutes from "./routes/projectRoutes";
 // Route IMports
 
 // configurations
@@ -25,6 +26,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
+app.use("/projects", projectRoutes);
+
 // Server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
