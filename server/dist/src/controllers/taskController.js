@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTasks = void 0;
+exports.createTask = exports.getTasks = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient(); // Initialize Prisma Client
 // We need to grab our tasks based on the projects. (so our project contains a list of tasks)
@@ -37,3 +37,31 @@ const getTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getTasks = getTasks;
+const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { title, description, status, priority, tags, startDate, dueDate, points, projectId, authorUserId, assignedUserId, } = req.body;
+    // Validate required fields
+    try {
+        const newTask = yield prisma.task.create({
+            data: {
+                title,
+                description,
+                status,
+                priority,
+                tags,
+                startDate,
+                dueDate,
+                points,
+                projectId,
+                authorUserId,
+                assignedUserId,
+            },
+        });
+        res.status(201).json(newTask);
+    }
+    catch (error) {
+        res
+            .status(500)
+            .json({ message: `Error creating project: ${error.message}` });
+    }
+});
+exports.createTask = createTask;
