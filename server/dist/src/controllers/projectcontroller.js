@@ -9,17 +9,46 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProjects = void 0;
+exports.createProject = exports.getProjects = void 0;
 const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
-// this is so that we can use prisma and grab data from our database.
+const prisma = new client_1.PrismaClient(); // Initialize Prisma Client
+// Fetch all projects
 const getProjects = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const projects = yield prisma.project.findMany(); //inside prisma we are grabbing our projectSchema when we did the npx prisma generate thats why we can grab from prisma directly instead
-        res.json(projects);
+        const projects = yield prisma.project.findMany(); // Retrieve all projects from the database
+        res.json(projects); // Send the projects as JSON response
     }
     catch (error) {
-        res.status(500).json({ message: "Error retrieving projects" });
+        console.error("Error retrieving projects:", error);
+        res.status(500).json({ message: `Error retrieving projects  ${error.message}` }); // Send error response
     }
 });
 exports.getProjects = getProjects;
+// Create a new project
+const createProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { projectName, description, startDate, endDate } = req.body;
+    // Validate required fields
+    if (!projectName || !startDate) {
+        res
+            .status(400)
+            .json({ message: "Project name and start date are required" });
+        return;
+    }
+    try {
+        const newProject = yield prisma.project.create({
+            data: {
+                projectName, // Match the field name in the Prisma schema
+                description,
+                startDate: startDate ? new Date(startDate) : null, // Parse to Date
+                endDate: endDate ? new Date(endDate) : null, // Handle null values
+            },
+        });
+        res.status(201).json(newProject);
+    }
+    catch (error) {
+        res
+            .status(500)
+            .json({ message: `Error creating project: ${error.message}` });
+    }
+});
+exports.createProject = createProject;

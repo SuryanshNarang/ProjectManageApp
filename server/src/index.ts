@@ -27,7 +27,6 @@ app.get("/", (req, res) => {
   res.send("Server is running");
 });
 app.use("/projects", projectRoutes);
-
 // Server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
