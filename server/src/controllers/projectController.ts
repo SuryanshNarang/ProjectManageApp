@@ -12,9 +12,11 @@ export const getProjects = async (
   try {
     const projects = await prisma.project.findMany(); // Retrieve all projects from the database
     res.json(projects); // Send the projects as JSON response
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error retrieving projects:", error);
-    res.status(500).json({ message: `Error retrieving projects  ${error.message}` }); // Send error response
+    res
+      .status(500)
+      .json({ message: `Error retrieving projects  ${error.message}` }); // Send error response
   }
 };
 

@@ -20,7 +20,9 @@ const getProjects = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
     catch (error) {
         console.error("Error retrieving projects:", error);
-        res.status(500).json({ message: `Error retrieving projects  ${error.message}` }); // Send error response
+        res
+            .status(500)
+            .json({ message: `Error retrieving projects  ${error.message}` }); // Send error response
     }
 });
 exports.getProjects = getProjects;
