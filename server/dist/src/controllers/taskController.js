@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTask = exports.getTasks = void 0;
+exports.updateTaskStatus = exports.createTask = exports.getTasks = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient(); // Initialize Prisma Client
 // We need to grab our tasks based on the projects. (so our project contains a list of tasks)
@@ -65,3 +65,25 @@ const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createTask = createTask;
+const updateTaskStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { taskId } = req.params;
+    const { status } = req.body;
+    try {
+        const updatedTask = yield prisma.task.update({
+            where: {
+                id: Number(taskId),
+            },
+            data: {
+                status: status,
+            },
+        });
+        res.json(updatedTask);
+    }
+    catch (error) {
+        console.error("Error retrieving tasks:", error);
+        res
+            .status(500)
+            .json({ message: `Error updating tasks  ${error.message}` }); // Send error response
+    }
+});
+exports.updateTaskStatus = updateTaskStatus;
