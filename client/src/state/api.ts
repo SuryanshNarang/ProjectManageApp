@@ -1,6 +1,7 @@
 // Importing createApi and fetchBaseQuery from Redux Toolkit Query.
 // These tools simplify API calls and state management for data fetched from APIs.
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+// WE DO NEED TO SET THESE TYPINGS WHICH HELP US TO IDENTIFY WHAT THE TYPE STRUCTURE WILL BE FOR EACH API's
 export interface Project {
   id: number;
   projectName: string; // Match the field name in the Prisma schema
@@ -8,11 +9,34 @@ export interface Project {
   startDate?: string; // Parse to Date
   endDate?: string; // Handle null values
 }
+
+export enum Priority {
+  Urgent = "Urgent",
+  High = "High",
+  Medium = "Medium",
+  Low = "Low",
+  Backlog = "Backlog",
+} // enum means it can be one out of these 4
 export enum Status { //enum means it can be one out of these 4
   ToDo = "To Do",
   WorkinProgress = "Work In Progress",
   UnderReview = "Under Review",
   Completed = "Completed",
+}
+export interface Attachment {
+  id: number;
+  fileURL: string;
+  fileName: string;
+  taskId: number;
+  uploadedById: number;
+}
+export interface User {
+  userId?: number;
+  username: string;
+  email: string;
+  profilePictureUrl?: string;
+  cognitoId?: string;
+  teamId?: number;
 }
 export interface Task {
   id: number;
@@ -27,6 +51,11 @@ export interface Task {
   projectId?: number;
   authorUserId?: number;
   assignedUserId?: number;
+
+  author?: User;
+  assignee?: User;
+  comments?: Comment[];
+  attachments?: Attachment[];
 }
 
 // Creating an API slice using Redux Toolkit Query.
