@@ -22,6 +22,7 @@ import { Icon, LockIcon, LucideIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
+import { useGetProjectsQuery } from "@/state/api";
 const Sidebar = () => {
   // We need a state to know wether the Projects dropdown is open or closed
   // Just like we are storing these values in the local state we will be storing  the sidebar Collapse in the Global State and we're going
@@ -30,6 +31,9 @@ const Sidebar = () => {
   const [showProjects, setShowProjects] = useState(true);
   const [showPriority, setShowPriority] = useState(true);
 
+  //since we want to see list of projects in sidebar so we are requesting here.
+  const { data: projects } = useGetProjectsQuery(); //go down to button where we have projectList. The result of this API call is stored in projects.
+//this destructures the response of the query to extract the data (which contains the list of projects) and assigns it to a variable called projec
   // Grabbing Two items from navbar file: dispatch and isSideBarCollapsed.
   const dispatch = useAppDispatch();
   const isSideBarCollapsed = useAppSelector(
@@ -98,6 +102,20 @@ const Sidebar = () => {
           )}
         </button>
         {/* Projects List: We can't do it yet: will do it when we have our api call do that.  */}
+        {showProjects && //This checks if showProjects is true. If it is, it maps over the projects array and renders a SidebarLink for each project
+          projects?.map(
+            (
+              project // This is using the optional chaining (?.) to ensure that projects is defined before calling .map() on it.
+            ) => (
+              <SidebarLink
+                key={project.id}
+                icon={Briefcase}
+                label={project.projectName} //This is rendering a SidebarLink component for each project, passing in the project’s id, name, and a link to the project's page (/projects/{project.id}).
+                href={`/projects/${project.id}`} //link it will navigate to.
+              />
+            )
+          )}
+
         {/* Priorities Button*/}
         <button
           onClick={() => setShowPriority((prev) => !prev)}
