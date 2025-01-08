@@ -66,7 +66,7 @@ export const api = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL, // It reads the base URL from an environment variable (NEXT_PUBLIC_API_BASE_URL), so the URL can change without modifying the code.
   }),
   reducerPath: "api", // Defines the name for this API slice in the Redux store.
-  tagTypes: ["Projects","Tasks"], //  Lists tags used for caching and invalidation.
+  tagTypes: ["Projects", "Tasks"], //  Lists tags used for caching and invalidation.
   endpoints: (build) => ({
     // this will allow us to make calls from FrontEnd
     getProjects: build.query<Project[], void>({
@@ -79,7 +79,7 @@ export const api = createApi({
       query: (project) => ({
         url: "projects", //url: "projects": Sends the request to the projects endpoint.
         method: "POST", //The "Projects" tag is invalidated, telling Redux Toolkit Query, "The cached data for projects is no longer accurate." Redux Toolkit Query automatically refetches getProjects to get the latest list of projects.
-        body: project, // Sends the project data in the request body.
+        body: project, // The body of the request contains the data you're sending to the server.
       }),
       invalidatesTags: ["Projects"], //The data labeled as "Projects" is now outdated. Please refetch it."
     }),
@@ -91,12 +91,27 @@ export const api = createApi({
       providesTags: (
         result //{ type: "Tasks", id: 1 } { type: "Tasks", id: 2 }
       ) =>
-        result
+        result //toggling logic.
           ? result.map(({ id }) => ({ type: "Tasks" as const, id }))
           : [{ type: "Tasks" as const }], //If the query returns no tasks (result is empty or null), we just create a generic tag: { type: "Tasks"
+    }),
+
+    //createTasks
+    createTask: build.mutation<Task, Partial<Task>>({
+      query: (task) => ({
+        url: "tasks",
+        method: "POST",
+        body: task,
+      }),
+      invalidatesTags: ["Tasks"],
     }),
   }),
 });
 
 // take them as functions.
-export const { useGetProjectsQuery, useCreateProjectMutation } = api;
+export const {
+  useGetProjectsQuery,
+  useCreateProjectMutation,
+  useGetTasksQuery,
+  useCreateTaskMutation,
+} = api;
