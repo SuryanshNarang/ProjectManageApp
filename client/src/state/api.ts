@@ -103,7 +103,21 @@ export const api = createApi({
         method: "POST",
         body: task,
       }),
-      invalidatesTags: ["Tasks"],
+      invalidatesTags: ["Tasks"], //we are updating the entire list we can get refetched the entire list.
+    }),
+    updateTaskStatus: build.mutation<Task, { taskId: number; status: string }>({
+      //passed object taskid and status
+      query: ({ taskId }) => ({
+        //object that's why it is in curly brack.
+
+        url: `tasks/${taskId}/status`,
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: (result, error, { taskId }) => [
+        //since we are updating a specific task and doing it via taskID that's why we have to do this arrowfunction
+        { type: "Tasks", id: taskId }, //we dont have to refetch but only update 1 specific task
+      ],
     }),
   }),
 });
