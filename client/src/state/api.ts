@@ -44,7 +44,7 @@ export interface Task {
   description?: string;
   status?: Status;
   priority?: Priority;
-  tags?: string;
+  tags?: string; // But what happens if that data changes (e.g., you add a new project)? You don’t want to show outdated data in your app. Tags ensure the cache is updated when necessary.
   startDate?: string;
   dueDate?: string;
   points?: number;
@@ -62,12 +62,28 @@ export interface Task {
 export const api = createApi({
   // `baseQuery` is a function that handles API requests. Here, we're setting up the base URL for all API calls.
   baseQuery: fetchBaseQuery({
-    // Using an environment variable for the base URL to keep the URL flexible and configurable.
-    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL, // Make sure this variable is defined in your `.env` file.
+    //The fetchBaseQuery function is used to make HTTP requests
+    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL, // It reads the base URL from an environment variable (NEXT_PUBLIC_API_BASE_URL), so the URL can change without modifying the code.
   }),
-  reducerPath: "api", // The name of this slice in the Redux store. Used internally by Redux.
-  tagTypes: [], // You can add tag types here for caching and invalidation logic (e.g., ["Posts", "Users"]).
-  endpoints: (build) => ({}), // Define API endpoints (functions for API calls) here. Currently, it's empty.
+  reducerPath: "api", // Defines the name for this API slice in the Redux store.
+  tagTypes: ["Projects"], //  Lists tags used for caching and invalidation.
+  endpoints: (build) => ({
+    // this will allow us to make calls from FrontEnd
+    getProjects: build.query<Project[], void>({
+      //: Defines this as a query (read-only) that returns an array of Project objects.
+      query: () => "projects", // When getProjects is called, the response is cached in Redux with the tag "Projects".
+      providesTags: ["Projects"], //This means the app now knows this cached data represents "Projects.
+    }),
+
+    createProject: build.mutation<Project, Partial<Project>>({
+      query: (project) => ({
+        url: "projects", //url: "projects": Sends the request to the projects endpoint.
+        method: "POST", //The "Projects" tag is invalidated, telling Redux Toolkit Query, "The cached data for projects is no longer accurate." Redux Toolkit Query automatically refetches getProjects to get the latest list of projects.
+        body: project, // Sends the project data in the request body.
+      }),
+      invalidatesTags: ["Projects"], //The data labeled as "Projects" is now outdated. Please refetch it."
+    }),
+  }),
 });
 
 // Exporting the API actions and hooks (when endpoints are defined). Since no endpoints are defined yet, this is empty.
