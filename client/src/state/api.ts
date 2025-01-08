@@ -66,7 +66,7 @@ export const api = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL, // It reads the base URL from an environment variable (NEXT_PUBLIC_API_BASE_URL), so the URL can change without modifying the code.
   }),
   reducerPath: "api", // Defines the name for this API slice in the Redux store.
-  tagTypes: ["Projects"], //  Lists tags used for caching and invalidation.
+  tagTypes: ["Projects","Tasks"], //  Lists tags used for caching and invalidation.
   endpoints: (build) => ({
     // this will allow us to make calls from FrontEnd
     getProjects: build.query<Project[], void>({
@@ -83,8 +83,20 @@ export const api = createApi({
       }),
       invalidatesTags: ["Projects"], //The data labeled as "Projects" is now outdated. Please refetch it."
     }),
+
+    // Similar for getTasks: It fetches tasks for a specific project by its projectId. What the tags do: They help manage the cache of the tasks. When we have tasks, we create individual tags for each task, so we know which tasks to update or refresh if needed. If no tasks are returned, we just create a general tag for the tasks.
+    // // The query will take an object with a projectId (a number) as an argument.
+    getTasks: build.query<Task[], { projectId: number }>({
+      query: (projectID) => `tasks?projectId=${projectID}`, //This is the function that builds the URL for the API request.It uses the projectId passed in the request and appends it to the URL like this Example URL: tasks?projectId=123
+      providesTags: (
+        result //{ type: "Tasks", id: 1 } { type: "Tasks", id: 2 }
+      ) =>
+        result
+          ? result.map(({ id }) => ({ type: "Tasks" as const, id }))
+          : [{ type: "Tasks" as const }], //If the query returns no tasks (result is empty or null), we just create a generic tag: { type: "Tasks"
+    }),
   }),
 });
 
-// Exporting the API actions and hooks (when endpoints are defined). Since no endpoints are defined yet, this is empty.
-export const {} = api;
+// take them as functions.
+export const { useGetProjectsQuery, useCreateProjectMutation } = api;
