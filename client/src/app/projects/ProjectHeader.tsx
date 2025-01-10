@@ -1,5 +1,13 @@
 import Header from "@/components/Header";
-import { Clock, Filter, Grid, Grid3x3, List, Share2, Table } from "lucide-react";
+import {
+  Clock,
+  Filter,
+  Grid,
+  Grid3x3,
+  List,
+  Share2,
+  Table,
+} from "lucide-react";
 import { Share } from "next/font/google";
 import React, { useState } from "react";
 
@@ -55,10 +63,14 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
             <Share2 className="h-5 w-5" />
           </button>
           <div className="relative">
-            <input type="text" placeholder="Search Task" className="rounded-md border py-1 pl-10 focus:outline-none" />
+            <input
+              type="text"
+              placeholder="Search Task"
+              className="rounded-md border py-1 pl-10 focus:outline-none dark:border-dark dark:bg-dark-secondary dark:text-white"
+            />
+            <Grid3x3 className="absolute left-3 top-2 h-4 w-4 text-gray-400 dark:text-neutral-500" />
           </div>
         </div>
-
       </div>
     </div>
   );
