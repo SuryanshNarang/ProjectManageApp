@@ -18,7 +18,8 @@ function Project({ params }: Props) {
     <div>
       {/* MODAL NEW TASK LEAVE A PLACEHOLDER FOR THIS */}
       {/* Projectheader Component its taking activeTab status */}
-      <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+      <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} /> 
+      {/* upr se we grabbed the ID and when we are redirected to project/id then this componenet is rendered and this contains ProjectHeader  */}
       {/* {activeTab === "Board" && (
               <Board/>
             )} */}
