@@ -3,6 +3,7 @@ import React from "react";
 import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Task as TaskType } from "@/state/api";
+import { EllipsisVertical } from "lucide-react";
 // BoardView is the parent component. It fetches the list of tasks (tasks), manages the modal state (setIsModalNewTaskOpen), and provides the logic for moving tasks (moveTask).
 
 type BoardProps = {
@@ -110,6 +111,11 @@ const TaskColumn = ({
               {taskCount}
             </span>
           </h3>
+          <div className="flex items-center gap-1 ">
+            <button className="flex h-6 w-5 items-center justify-center text-neutral-500">
+              <EllipsisVertical size={26} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
