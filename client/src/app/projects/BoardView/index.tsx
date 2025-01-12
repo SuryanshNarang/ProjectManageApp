@@ -1,6 +1,6 @@
 import { useGetTasksQuery, useUpdateTaskStatusMutation } from "@/state/api";
 import React from "react";
-import { DndProvider } from "react-dnd";
+import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Task as TaskType } from "@/state/api";
 // BoardView is the parent component. It fetches the list of tasks (tasks), manages the modal state (setIsModalNewTaskOpen), and provides the logic for moving tasks (moveTask).
@@ -29,7 +29,6 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
   const [updateTaskStatus] = useUpdateTaskStatusMutation(); //this is a triggerFUnction that will call the API as its now the taskStatus.
   const moveTask = (taskId: number, toStatus: string) => {
     //If the child component requires a function that resides in the parent component (e.g., API calls or state updates), the function must be passed as a prop.
-
     updateTaskStatus({ taskId, status: toStatus });
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error occured while fetching tasks</div>;
@@ -71,6 +70,16 @@ const TaskColumn = ({
   setIsModalNewTaskOpen,
 }: TaskColumnProps) => {
   // to use some drag and drop functionality
+  //   these are some functionalities of React-dnd
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: "task", // Defines what type of item can be dropped here
+    drop: (item: { id: number }) => moveTask(item.id, status), // When an item is dropped, moveTask is called
+    collect: (monitor: any) => ({
+      isOver: !!monitor.isOver(), // Collects whether the item is currently over the drop target
+    }),
+  }));
+// above is the functionality for drag and drop
+
 };
 
 export default BoardView;
