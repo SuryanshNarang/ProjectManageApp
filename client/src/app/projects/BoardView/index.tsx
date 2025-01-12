@@ -15,7 +15,6 @@ const taskStatus = [
   "Work in Progress",
   "Completed",
   "Under Review",
-  "Completed",
 ];
 const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
   //Allows toggling a modal for creating a new task.
@@ -78,8 +77,43 @@ const TaskColumn = ({
       isOver: !!monitor.isOver(), // Collects whether the item is currently over the drop target
     }),
   }));
-// above is the functionality for drag and drop
-
+  // above is the functionality for drag and drop
+  const taskCount = tasks.filter((task) => task.status === status).length; //tasks: This is the list of tasks you fetched from your API.
+  const statusColor: any = {
+    "To Do": "#2563EB",
+    "Work in Progress": "#059669",
+    "Under Review": "#D97706",
+    Completed: "#000000",
+  };
+  return (
+    <div
+      ref={(instance) => {
+        drop(instance);
+      }}
+      className={`sl:py-4 rounded-lg py-2 xl:px-2 ${
+        isOver ? "bg-blue-100 dark:bg-neutral-950" : ""
+      }`}
+    >
+      {/* Rendering */}
+      <div className="mb-3 flex w-full">
+        <div
+          className={`w-2 !bg-[${statusColor[status]}] rounded-s-lg`}
+          style={{ backgroundColor: statusColor[status] }}
+        />
+        <div className="flex w-full items-center justify-between rounded-e-lg bg-white px-5 py-4 dark:bg-dark-secondary">
+          <h3 className="flex items-center text-lg font-semibold dark:text-white ">
+            {status}{" "}
+          </h3>
+          {/* for count */}
+          <span
+            className="ml-2 inline-block rounded-full bg-gray-200 p-1 text-center text-sm leading-none dark:bg-dark-tertiary"
+            style={{ width: "1.5rem", height: "1.5rem" }}
+          >
+            {taskCount}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
 };
-
 export default BoardView;
