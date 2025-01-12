@@ -126,6 +126,6 @@ export const api = createApi({
 export const {
   useGetProjectsQuery,
   useCreateProjectMutation,
-  useGetTasksQuery,
+  useGetTasksQuery, //used in the boardView under Projects
   useCreateTaskMutation,
 } = api;
