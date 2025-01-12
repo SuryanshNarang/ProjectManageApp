@@ -126,6 +126,12 @@ const TaskColumn = ({
         </div>
       </div>
       {/* Handeling tasks list */}
+      {tasks
+        .filter((task) => task.status === status)
+        .map((task) => (
+          // returning a task component
+          <Task key={task.id} task={task} />
+        ))}
     </div>
   );
 };
