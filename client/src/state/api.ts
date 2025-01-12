@@ -106,6 +106,7 @@ export const api = createApi({
       invalidatesTags: ["Tasks"], //we are updating the entire list we can get refetched the entire list.
     }),
     updateTaskStatus: build.mutation<Task, { taskId: number; status: string }>({
+      //used in BOardView.
       //passed object taskid and status
       query: ({ taskId }) => ({
         //object that's why it is in curly brack.
@@ -128,4 +129,5 @@ export const {
   useCreateProjectMutation,
   useGetTasksQuery, //used in the boardView under Projects
   useCreateTaskMutation,
+  useUpdateTaskStatusMutation, //used in BoardView under Tasks
 } = api;
