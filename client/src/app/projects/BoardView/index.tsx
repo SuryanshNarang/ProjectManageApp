@@ -1,9 +1,10 @@
 import { useGetTasksQuery, useUpdateTaskStatusMutation } from "@/state/api";
 import React from "react";
-import { DndProvider, useDrop } from "react-dnd";
+import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Task as TaskType } from "@/state/api";
 import { EllipsisVertical, Plus } from "lucide-react";
+import { format } from "date-fns";
 // BoardView is the parent component. It fetches the list of tasks (tasks), manages the modal state (setIsModalNewTaskOpen), and provides the logic for moving tasks (moveTask).
 
 type BoardProps = {
@@ -71,6 +72,7 @@ const TaskColumn = ({
 }: TaskColumnProps) => {
   // to use some drag and drop functionality
   //   these are some functionalities of React-dnd
+  // USE DROP FUNCTION
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "task", // Defines what type of item can be dropped here
     drop: (item: { id: number }) => moveTask(item.id, status), // When an item is dropped, moveTask is called
@@ -135,4 +137,24 @@ const TaskColumn = ({
     </div>
   );
 };
+
+// TASK COMPONENT
+type TaskProps = {
+  task: TaskType;
+};
+const Task = ({ task }: TaskProps) => {
+  //grabbed Tasks from task Props
+  // in our task column we had useDrop function
+  const [{ isDragging }, drop] = useDrag(() => ({
+    type: "task", // Defines what type of item can be dropped here
+    item: { id: task.id },
+    collect: (monitor: any) => ({
+      isDragging: !!monitor.isDragging(), // Collects whether the item is currently over the drop target
+    }),
+  }));
+
+  const taskTagsSplit= task.tags ? task.tags.split(",") : [];
+  const formattedStartDate= task.startDate ? format( new Date(task.startDate, "P"))
+};
+
 export default BoardView;
