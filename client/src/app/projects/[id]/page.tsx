@@ -1,30 +1,27 @@
-// we made projects folder and for dynamic URL we are making this file under folder[id]
 "use client";
 import React, { useState } from "react";
+import { useParams } from "next/navigation";
 import ProjectHeader from "@/app/projects/ProjectHeader";
 import Board from "../BoardView";
-type Props = {
-  params: { id: string };
-};
-// SINCE WE NEED TO SHOW OUR PROJECTS ON SIDEBAR WE WILL REQUEST FOR API IN SIDEBAR
 
-function Project({ params }: Props) {
-  //this particular page grabs the id so that we can use that value  to grab it see below how to
-  const { id } = params; //When a user navigates to a URL like /projects/1, the id in the URL is captured as params.id and passed as a prop to the Project component.
-  const [activeTab, setActiveTab] = useState("Baord"); //It tracks the active tab (activeTab) and allows switching tabs through setActiveTab.( Tracks the currently active tab (e.g., "Board").)
-  const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false); //A boolean state to manage the visibility of a modal for creating a new project.
+// This file is a client component (because of "use client"), 
+// so we use "useParams()" instead of receiving "params" as a prop.
+export default function Project() {
+  // Grabs the route segment "id" from the URL, e.g. /projects/123 => id = "123".
+  const { id } = useParams() as { id: string };  
+
+  const [activeTab, setActiveTab] = useState("Board");
+  const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
 
   return (
     <div>
-      {/* MODAL NEW TASK LEAVE A PLACEHOLDER FOR THIS */}
-      {/* Projectheader Component its taking activeTab status */}
+      {/* Header with tabs */}
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
-      {/* upr se we grabbed the ID and when we are redirected to project/id then this componenet is rendered and this contains ProjectHeader  */}
+
+      {/* Only render the Board if the activeTab is "Board" */}
       {activeTab === "Board" && (
         <Board id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
       )}
     </div>
   );
 }
-
-export default Project;

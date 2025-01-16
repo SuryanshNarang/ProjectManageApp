@@ -87,7 +87,8 @@ export const api = createApi({
     // Similar for getTasks: It fetches tasks for a specific project by its projectId. What the tags do: They help manage the cache of the tasks. When we have tasks, we create individual tags for each task, so we know which tasks to update or refresh if needed. If no tasks are returned, we just create a general tag for the tasks.
     // // The query will take an object with a projectId (a number) as an argument.
     getTasks: build.query<Task[], { projectId: number }>({
-      query: (projectID) => `tasks?projectId=${projectID}`, //This is the function that builds the URL for the API request.It uses the projectId passed in the request and appends it to the URL like this Example URL: tasks?projectId=123
+      query: ({ projectId }) => `tasks?projectId=${projectId}` //BUG FIXED HERE [1] ::1 - - [16/Jan/2025:19:14:42 +0000] "GET /tasks?projectId=[object%20Object] HTTP/1.1" 400 31
+      , //This is the function that builds the URL for the API request.It uses the projectId passed in the request and appends it to the URL like this Example URL: tasks?projectId=123
       providesTags: (
         result //{ type: "Tasks", id: 1 } { type: "Tasks", id: 2 }
       ) =>
