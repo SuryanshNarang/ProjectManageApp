@@ -89,6 +89,53 @@ export const api = createApi({
     getTasks: build.query<Task[], { projectId: number }>({
       query: ({ projectId }) => `tasks?projectId=${projectId}` //BUG FIXED HERE [1] ::1 - - [16/Jan/2025:19:14:42 +0000] "GET /tasks?projectId=[object%20Object] HTTP/1.1" 400 31
       , //This is the function that builds the URL for the API request.It uses the projectId passed in the request and appends it to the URL like this Example URL: tasks?projectId=123
+    //We knew we had to destructure the projectId property because of how the query arguments are being passed to useGetTasksQuery.
+
+// Why Destructure?
+// How the API call is set up:
+
+// In your api.ts file, the getTasks function expects an object with projectId as a key:
+// ts
+// Copy
+// Edit
+// getTasks: build.query<Task[], { projectId: number }>({
+//   query: ({ projectId }) => `tasks?projectId=${projectId}`,
+// });
+// Notice how query is designed to destructure { projectId }.
+// What you passed in:
+
+// In your BoardView component, you’re calling useGetTasksQuery like this:
+// ts
+// Copy
+// Edit
+// useGetTasksQuery({ projectId: Number(id) });
+// You passed an object with a key projectId.
+// Mismatch if not destructured:
+
+// If you don't destructure the projectId, the query function would see the entire object ({ projectId: 123 }) instead of just the projectId value (123).
+// Without destructuring, your code would look like:
+// ts
+// Copy
+// Edit
+// query: (params) => `tasks?projectId=${params.projectId}`;
+// Here, you'd have to access the projectId manually using params.projectId.
+// Why destructure directly?
+
+// // By destructuring:
+// ts
+// Copy
+// Edit
+// query: ({ projectId }) => `tasks?projectId=${projectId}`;
+// The code automatically extracts the projectId value from the object, making it simpler and cleaner.
+// No need to refer to params.projectId repeatedly.
+// In Simple Words
+// When you call useGetTasksQuery({ projectId: 123 }), you’re passing an object. To directly grab the projectId value from that object, destructuring is the cleanest and most efficient way:
+
+// ts
+// Copy
+// Edit
+// query: ({ projectId }) => `tasks?projectId=${projectId}`;
+// If you didn’t destructure, you'd have to do extra work to access projectId (e.g., using params.projectId), which is unnecessary.
       providesTags: (
         result //{ type: "Tasks", id: 1 } { type: "Tasks", id: 2 }
       ) =>
