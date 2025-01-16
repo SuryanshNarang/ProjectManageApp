@@ -152,9 +152,14 @@ const Task = ({ task }: TaskProps) => {
       isDragging: !!monitor.isDragging(), // Collects whether the item is currently over the drop target
     }),
   }));
-
-  const taskTagsSplit= task.tags ? task.tags.split(",") : [];
-  const formattedStartDate= task.startDate ? format( new Date(task.startDate, "P"))
+// Feature	useDrag	useDrop
+// Purpose	Makes an element draggable.	Makes an element a drop target.
+// Key Property	type (defines what is being dragged).	accept (defines what can be dropped).
+// Key Function	item (data to pass during drag).	drop (action to perform on drop).
+// Metadata Collected	isDragging (is the item being dragged?).	isOver (is the dragged item over the target?).
+// Ref Attachment	Attach drag ref to the draggable element.	Attach drop ref to the drop target element.
+  const taskTagsSplit= task.tags ? task.tags.split(",") : []; //If your application allows searching or filtering tasks by tags, having tags as an array makes it easier to compare individual tags.
+  const formattedStartDate= task.startDate ? format( new Date(task.startDate), "P")
 };
 
 export default BoardView;
