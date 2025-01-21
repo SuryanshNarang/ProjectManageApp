@@ -153,20 +153,20 @@ export const api = createApi({
       invalidatesTags: ["Tasks"], //we are updating the entire list we can get refetched the entire list.
     }),
     updateTaskStatus: build.mutation<Task, { taskId: number; status: string }>({
-      // Used in BoardView.
-      // Passed object taskId and status
+      //used in BOardView.
+      //passed object taskid and status
       query: ({ taskId, status }) => ({
+        //object that's why it is in curly brack.
+
         url: `tasks/${taskId}/status`,
         method: "PATCH",
-        body: { status }, // Pass status correctly
+        body: { status },
       }),
       invalidatesTags: (result, error, { taskId }) => [
-        // Since we are updating a specific task and doing it via taskId,
-        // we invalidate the tag for the specific task to ensure it is updated.
-        { type: "Tasks", id: taskId },
+        //since we are updating a specific task and doing it via taskID that's why we have to do this arrowfunction
+        { type: "Tasks", id: taskId }, //we dont have to refetch but only update 1 specific task
       ],
     }),
-    
   }),
 });
 
