@@ -25,24 +25,20 @@ const taskStatus = [
   "Under Review",
 ];
 const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
-  //Allows toggling a modal for creating a new task.
-  // First thing is Grabbing the tasks
-  //BoardView prepares the data (tasks), logic (moveTask), and state handlers (setIsModalNewTaskOpen) and passes them as props to TaskColumn.
   const {
     data: tasks,
     isLoading,
     error,
   } = useGetTasksQuery({ projectId: Number(id) });
-  //got useGetTasksQuery from api.ts in the API we saw that we required projectID so that we know which project's task is the one.
-  const [updateTaskStatus] = useUpdateTaskStatusMutation(); //this is a triggerFUnction that will call the API as its now the taskStatus.
+  const [updateTaskStatus] = useUpdateTaskStatusMutation();
+
   const moveTask = (taskId: number, toStatus: string) => {
-    //If the child component requires a function that resides in the parent component (e.g., API calls or state updates), the function must be passed as a prop.
     updateTaskStatus({ taskId, status: toStatus });
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error occured while fetching tasks</div>;
-    // USING THE Drag and Drop Provider install the react-dnd provider.
-    //this will allow us to do all the drag and drop functionality.
   };
+  
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>An error occurred while fetching tasks</div>;
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 xl:grid-cols-4">
@@ -233,7 +229,19 @@ const Task = ({ task }: TaskProps) => {
             <EllipsisVertical size={26} />
           </button>
         </div>
-        <div className=""></div>
+        <div className="my-3 flex justify-between">
+          <h4 className="text-md font-bold dark:text-white">{task.title}</h4>
+          {typeof task.points === "number" && (
+            <div className="text-xs font-semibold dark:text-white">
+              {task.points}pts
+            </div>
+          )}
+        </div>
+        {/* Dates */}
+        <div className="text-xs text-gray-500 dark:text-neutral-500">
+          {formattedStartDate && <span>{formattedStartDate}-</span>}
+          {formattedDueDate && <span>{formattedDueDate}</span>}
+        </div>
       </div>
     </div>
   );
