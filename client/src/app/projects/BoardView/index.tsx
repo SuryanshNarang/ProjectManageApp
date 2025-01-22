@@ -192,7 +192,8 @@ const Task = ({ task }: TaskProps) => {
   };
   return (
     <div
-      ref={(instance) => { //: This attaches the drag functionality to the task div.
+      ref={(instance) => {
+        //: This attaches the drag functionality to the task div.
         drag(instance);
       }}
       className={`mb-4 rounded-md bg-white shadow dark:bg-dark-secondary ${
@@ -216,14 +217,18 @@ const Task = ({ task }: TaskProps) => {
             {task.priority && <PriorityTag priority={task.priority} />}
             {/* Rendering Task Tags like deployment etc */}
             <div className="flex gap-2">
-              {taskTagsSplit.map((tag) => ( //we converted tags in array tagsplit so that rendering becomes easy.
-                <div
-                  key={tag} 
-                  className="rounded-full bg-blue-100 px-2 py-1 text-xs"
-                >
-                  {tag}
-                </div>
-              ))}
+              {taskTagsSplit.map(
+                (
+                  tag //we converted tags in array tagsplit so that rendering becomes easy.
+                ) => (
+                  <div
+                    key={tag}
+                    className="rounded-full bg-blue-100 px-2 py-1 text-xs"
+                  >
+                    {tag}
+                  </div>
+                )
+              )}
             </div>
           </div>
           {/* Dotted button */}
@@ -243,6 +248,25 @@ const Task = ({ task }: TaskProps) => {
         <div className="text-xs text-gray-500 dark:text-neutral-500">
           {formattedStartDate && <span>{formattedStartDate}-</span>}
           {formattedDueDate && <span>{formattedDueDate}</span>}
+        </div>
+        <p className="text-sm text-gray-600 dark:text-neutral-500">
+          {task.description}
+        </p>
+        <div className="mt-4 border-t border-gray-200 dark:border-stroke-dark" />
+        {/* USERS */}
+        <div className="mt-3 flex items-center justify-between">
+          <div className="flex -space-x-[6px] overflow-x-hidden">
+            {task.assignee && (
+              <Image  
+                key={task.assignee.userId}
+                src={`/${task.assignee.profilePictureUrl}`}
+                alt={task.assignee.username}
+                width={30}
+                height={30}
+                className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
