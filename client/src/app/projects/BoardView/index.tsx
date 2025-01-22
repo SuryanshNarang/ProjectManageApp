@@ -3,7 +3,7 @@ import React from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Task as TaskType } from "@/state/api";
-import { EllipsisVertical, Plus } from "lucide-react";
+import { EllipsisVertical, MessageSquareMore, Plus } from "lucide-react";
 import { format } from "date-fns";
 import Image from "next/image";
 // BoardView is the parent component. It fetches the list of tasks (tasks), manages the modal state (setIsModalNewTaskOpen), and provides the logic for moving tasks (moveTask).
@@ -203,7 +203,7 @@ const Task = ({ task }: TaskProps) => {
       {/* If the task has attachments, it displays the first attachment as an image with a specific width and height. */}
       {task.attachments && task.attachments.length > 0 && (
         <Image
-          src={`https://pm-s3-images.s3.us-east-2.amazonaws.com/${task.attachments[0].fileURL}`}
+          src={`/${task.attachments[0].fileURL}`}
           alt={task.attachments[0].fileName}
           width={400}
           height={200}
@@ -257,15 +257,29 @@ const Task = ({ task }: TaskProps) => {
         <div className="mt-3 flex items-center justify-between">
           <div className="flex -space-x-[6px] overflow-x-hidden">
             {task.assignee && (
-              <Image  
+              <Image
                 key={task.assignee.userId}
-                src={`/${task.assignee.profilePictureUrl}`}
+                src={`/${task.assignee.profilePictureUrl!}`}
                 alt={task.assignee.username}
                 width={30}
                 height={30}
                 className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
               />
             )}
+            {task.author && (
+              <Image
+                key={task.author.userId}
+                src={`/${task.author.profilePictureUrl!}`}
+                alt={task.author.username}
+                width={30}
+                height={30}
+                className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
+              />
+            )}
+          </div>
+          <div className="flex items-center text-gray-500 dark:text-neutral-500">
+            <MessageSquareMore size={20}/>
+            <span className="ml-1  text-sm dark:text-neutral-400 ">{numberOfComments}</span>
           </div>
         </div>
       </div>
