@@ -34,24 +34,36 @@ const index = ({ task }: Props) => {
         {task.title}
       </p>
       <p>
-        <strong>ID: </strong>
-        {task.id}
+        <strong>Description: </strong>{" "}
+        {task.description || "No description available"}
       </p>
       <p>
-        <strong>ID: </strong>
-        {task.id}
+        <strong>Status: </strong>
+        {task.status}
       </p>
       <p>
-        <strong>ID: </strong>
-        {task.id}
+        <strong>Priority: </strong>
+        {task.priority}
       </p>
       <p>
-        <strong>ID: </strong>
-        {task.id}
+        <strong>Tags: </strong>
+        {task.tags}
       </p>
       <p>
-        <strong>ID: </strong>
-        {task.id}
+        <strong>StartDate: </strong>{" "}
+        {task.startDate ? format(new Date(task.startDate), "P") : "Not Set"}
+      </p>
+      <p>
+        <strong>DueDate: </strong>{" "}
+        {task.dueDate ? format(new Date(task.dueDate), "P") : "Not Set"}
+      </p>
+      <p>
+        <strong>Author: </strong>
+        {task.author ? task.author.username: "Username"}
+      </p>
+      <p>
+        <strong>Assignee:</strong>
+        {task.assignee ? task.assignee.username: "Unassigned"}
       </p>
     </div>
   );
