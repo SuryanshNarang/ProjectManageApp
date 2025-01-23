@@ -24,9 +24,13 @@ const ListView = ({ id, setIsModalNewTaskOpen }: Props) => {
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {/* Jitne bhi cards hai tasks ke they are in a component  */}
-        {tasks?.map((task: Task) => ( //rendering all the tasks using map function
-          <TaskCard key={task.id} task={task} />
-        ))}
+        {tasks?.map(
+          (
+            task: Task //rendering all the tasks using map function
+          ) => (
+            <TaskCard key={task.id} task={task} />
+          )
+        )}
       </div>
     </div>
   );
