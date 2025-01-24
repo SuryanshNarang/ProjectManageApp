@@ -1,7 +1,8 @@
 import { useAppSelector } from "@/app/redux";
 import { useGetTasksQuery } from "@/state/api";
 import React, { useMemo, useState } from "react";
-import { DisplayOption, ViewMode } from "gantt-task-react";
+import { DisplayOption, Gantt, Task, ViewMode } from "gantt-task-react";
+import { TaskType } from "gantt-task-react/dist/types/public-types";
 type Props = {
   id: string;
   setIsModalNewTaskOpen: (isOpen: boolean) => void;
@@ -22,16 +23,18 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
   //   Using useMemo to update only when its needed
   //It takes an array of tasks and transforms each task into a new object format suitable for rendering in a Gantt chart
   const ganttTask = useMemo(() => {
-    return tasks?.map((task) => ({
-      start: new Date(task.startDate as string),
+    if (!tasks) return [];
+    return tasks.map((task) => ({
+      start: new Date(task.startDate as string), // Ensures valid date conversion
       end: new Date(task.dueDate as string),
       name: task.title,
-      id: `Task-${task.id}`,
-      type: "task" as const, // Use "as const" to infer the literal type
-      progress: task.points ? (task.points / 10) * 100 : 0,
-      isDisabled: false,
+      id: `Task-${task.id}`, // Unique identifier for each task
+      type: "task" as TaskTypeItems, // Type-casting to ensure compatibility
+      progress: task.points ? Math.min((task.points / 10) * 100, 100) : 0, // Capping progress at 100%
+      isDisabled: false, // Default value for disabling the task
     }));
-  }, [tasks]); // Add dependencies array to ensure it updates when `tasks` changes
+  }, [tasks]);
+  // Add dependencies array to ensure it updates when `tasks` changes
   // An event handler that will change according to our month week and year
   const handleViewModeChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -62,6 +65,27 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
             <option value={ViewMode.Week}>Week</option>
             <option value={ViewMode.Month}>Month</option>
           </select>
+        </div>
+      </div>
+      <div className="overflow-hidden rounded-md bg-white shadow dark:bg-dark-secondary dark:text-white">
+        <div className="timeline ">
+          <Gantt
+            tasks={ganttTask}
+            viewMode={displayOptions.viewMode}
+            locale={displayOptions.locale}
+            columnWidth={displayOptions.viewMode === ViewMode.Month ? 150 : 100}
+            listCellWidth="100px"
+            barBackgroundColor={isDarkMode ? "#101214" : "#aeb8c2"}
+            barBackgroundSelectedColor={isDarkMode ? "#000" : "#9ba1e6"}
+          />
+        </div>
+        <div className="px-4 pb-5 pt-1">
+          <button
+            className="flex items-center rounded bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
+            onClick={() => setIsModalNewTaskOpen(true)}
+          >
+            Add New Task
+          </button>
         </div>
       </div>
     </div>
