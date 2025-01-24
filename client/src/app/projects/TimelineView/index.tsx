@@ -3,6 +3,7 @@ import { useGetTasksQuery } from "@/state/api";
 import React, { useMemo, useState } from "react";
 import { DisplayOption, Gantt, Task, ViewMode } from "gantt-task-react";
 import { TaskType } from "gantt-task-react/dist/types/public-types";
+import "gantt-task-react/dist/index.css";
 type Props = {
   id: string;
   setIsModalNewTaskOpen: (isOpen: boolean) => void;
@@ -76,7 +77,7 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
             columnWidth={displayOptions.viewMode === ViewMode.Month ? 150 : 100}
             listCellWidth="100px"
             barBackgroundColor={isDarkMode ? "#101214" : "#aeb8c2"}
-            barBackgroundSelectedColor={isDarkMode ? "#000" : "#9ba1e6"}
+            barBackgroundSelectedColor={isDarkMode ? "#000" : "#9ba1a6"}
           />
         </div>
         <div className="px-4 pb-5 pt-1">
