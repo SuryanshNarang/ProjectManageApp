@@ -5,6 +5,7 @@ import ProjectHeader from "@/app/projects/ProjectHeader";
 import Board from "../BoardView";
 import List from "../ListView";
 import Timeline from "../TimelineView";
+import Table from "../TableView";
 // This file is a client component (because of "use client"),
 // so we use "useParams()" instead of receiving "params" as a prop.
 export default function Project() {
@@ -28,6 +29,9 @@ export default function Project() {
       )}
       {activeTab === "Timeline" && (
         <Timeline id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+      )}
+      {activeTab === "Table" && (
+        <Table id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
       )}
     </div>
   );
