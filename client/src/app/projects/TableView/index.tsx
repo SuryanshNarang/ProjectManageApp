@@ -20,6 +20,16 @@ const columns: GridColDef[] = [
     width: 200,
   },
   {
+    field: "status",
+    headerName: "Status",
+    width: 130,
+    renderCell: (params) => (
+      <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+        {params.value}
+      </span>
+    ),
+  },
+  {
     field: "priority",
     headerName: "Priority",
     width: 75,
