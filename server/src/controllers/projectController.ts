@@ -52,3 +52,25 @@ export const createProject = async (
       .json({ message: `Error creating project: ${error.message}` });
   }
 };
+// Delete a project
+export const deleteProject = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { id } = req.params; // Get the project ID from the URL params
+
+  if (!id) {
+    res.status(400).json({ message: "Project ID is required" });
+    return;
+  }
+
+  try {
+    const projectToDelete = await prisma.project.delete({
+      where: { id: Number(id) }, // Find the project by its ID
+    });
+
+    res.status(200).json({ message: `Project ${projectToDelete.projectName} deleted successfully` });
+  } catch (error: any) {
+    res.status(500).json({ message: `Error deleting project: ${error.message}` });
+  }
+};

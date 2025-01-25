@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProject = exports.getProjects = void 0;
+exports.deleteProject = exports.createProject = exports.getProjects = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient(); // Initialize Prisma Client
 // Fetch all projects
@@ -54,3 +54,21 @@ const createProject = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.createProject = createProject;
+// Delete a project
+const deleteProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params; // Get the project ID from the URL params
+    if (!id) {
+        res.status(400).json({ message: "Project ID is required" });
+        return;
+    }
+    try {
+        const projectToDelete = yield prisma.project.delete({
+            where: { id: Number(id) }, // Find the project by its ID
+        });
+        res.status(200).json({ message: `Project ${projectToDelete.projectName} deleted successfully` });
+    }
+    catch (error) {
+        res.status(500).json({ message: `Error deleting project: ${error.message}` });
+    }
+});
+exports.deleteProject = deleteProject;

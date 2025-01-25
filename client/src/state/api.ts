@@ -142,6 +142,13 @@ export const api = createApi({
           ? result.map(({ id }) => ({ type: "Tasks" as const, id }))
           : [{ type: "Tasks" as const }], //If the query returns no tasks (result is empty or null), we just create a generic tag: { type: "Tasks"
     }),
+    deleteProject: build.mutation<void, number>({
+      query: (id) => ({
+        url: `projects/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Projects"], // Invalidates the cached "Projects" data so it will be refetched
+    }),
 
     //createTasks
     createTask: build.mutation<Task, Partial<Task>>({
@@ -170,6 +177,8 @@ export const api = createApi({
   }),
 });
 
+
+
 // take them as functions.
 export const {
   useGetProjectsQuery,
@@ -177,6 +186,7 @@ export const {
   useGetTasksQuery, //used in the boardView under Projects
   useCreateTaskMutation,
   useUpdateTaskStatusMutation, //used in BoardView under Tasks
+  useDeleteProjectMutation,
 } = api;
 
 
