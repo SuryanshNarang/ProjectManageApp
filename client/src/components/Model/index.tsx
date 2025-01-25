@@ -3,6 +3,11 @@ import { X } from "lucide-react";
 import React from "react";
 import ReactDom from "react-dom";
 import Header from "../Header";
+// // Why Use children Here?
+// Shared Modal Layout: The Modal component provides a common layout (like the backdrop, close button, and general styling) that you don't want to rewrite for every use case.
+// Custom Content: The content inside the modal changes depending on whether you're creating a task or a project. For example:
+// For creating a task, the modal might have fields for task name, description, and due date.
+// For creating a project, it might have fields for project name, team members, and deadlines.
 type Props = {
   children: React.ReactNode;
   isOpen: boolean;

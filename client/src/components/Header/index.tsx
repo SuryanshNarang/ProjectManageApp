@@ -6,17 +6,14 @@ type Props = {
   isSmallText?: boolean;
 };
 // we are going to have header title and header button. which will be consistent accross many pages.
-const Header = ({ name, buttonComponent, isSmallText = false }: Props) => {
+
+const Header = ({ name, buttonComponent, isSmallText }: Props) => {
   return (
-    <div className="mb-5 flex w-full items-center justify-between">
-      <h1
-        className={`${
-          isSmallText ? "text-lg" : "text-2xl"
-        } font-semibold dark:text-white`}
-      >
+    <div className="flex items-center justify-between">
+      <h2 className={`text-lg font-semibold dark:text-white ${isSmallText ? "text-sm" : ""}`}>
         {name}
-        {buttonComponent}
-      </h1>
+      </h2>
+      {buttonComponent && <div>{buttonComponent}</div>}
     </div>
   );
 };
