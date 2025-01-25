@@ -6,5 +6,5 @@ const router = (0, express_1.Router)();
 router.get("/", projectController_1.getProjects); //for our homepage we are requesting the getProjects.
 //app.use("/projects", projectRoutes); defined in root file index.ts
 // if above route is something like: /ds (then our route will be /projects/ds)
-router.post("/createProjects", projectController_1.createProject);
+router.post("/", projectController_1.createProject);
 exports.default = router;

@@ -5,5 +5,5 @@ const router = Router();
 router.get("/", getProjects); //for our homepage we are requesting the getProjects.
 //app.use("/projects", projectRoutes); defined in root file index.ts
 // if above route is something like: /ds (then our route will be /projects/ds)
-router.post("/createProjects",createProject)
+router.post("/",createProject)
 export default router;

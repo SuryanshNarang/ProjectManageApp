@@ -24,13 +24,14 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
     <div className="px-4 xl:px-6">
       <ModalNewProject
         isOpen={isModalNewProjectOpen}
-        onClose={() => setIsModalNewProjectOpen(false)} // Pass a function reference
+        onClose={() => setIsModalNewProjectOpen(false)} // Close modal when triggered
       />
+
       {/* Header and Button in One Row */}
       <div className="flex items-center justify-between pb-6 pt-6 lg:pb-4 lg:pt-8">
         <Header name="Product Design Development" />
         <button
-         className="flex items-center whitespace-nowrap rounded-md bg-blue-primary px-4 py-2 text-white hover:bg-blue-600"
+          className="flex items-center whitespace-nowrap rounded-md bg-blue-primary px-4 py-2 text-white hover:bg-blue-600"
           onClick={() => setIsModalNewProjectOpen(true)} // Open modal on click
         >
           <LucidePlusSquare className="mr-2 h-5 w-5" />
