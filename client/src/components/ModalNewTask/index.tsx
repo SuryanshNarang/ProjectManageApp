@@ -32,7 +32,7 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent page refresh
     // check the api export interface Task alot of things are optional there.
-    if (!title) return;
+    if (!title || !authorUserId) return;
 
     const formattedStartDate = formatISO(new Date(startDate), {
       representation: "complete",
@@ -62,7 +62,7 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
         assignedUserId: parseInt(assignedUserId),
         projectId: Number(id), // Passing the project ID from the parent component
       }).unwrap(); // `unwrap()` helps catch errors more effectively
-      console.log("Project created successfully!");
+      console.log("Task created successfully!");
       onClose(); // Close the modal on successful project creation
     } catch (error) {
       console.error("Error creating Task:", error);
@@ -70,7 +70,7 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
   };
 
   const isFormValid = () => {
-    return title;
+    return title && authorUserId;
   };
   const selectStyles =
     "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus-outline-none";
