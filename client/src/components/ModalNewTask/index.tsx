@@ -15,7 +15,7 @@ type Props = {
 // Made changes to ModalNew Project
 const ModalNewTask = ({ isOpen, onClose }: Props) => {
   //
-  const [createTask] = useCreateTaskMutation();
+  const [createTask, { isLoading }] = useCreateTaskMutation();
 
   // State for form inputs
   const [title, setTitle] = useState("");
@@ -68,9 +68,10 @@ const ModalNewTask = ({ isOpen, onClose }: Props) => {
   };
 
   const isFormValid = () => {
-    return projectName && description && startDate && endDate;
+    return title;
   };
-
+  const selectStyles =
+    "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus-outline-none";
   const inputStyles =
     "w-full rounded border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus-outline-none";
 
@@ -84,9 +85,9 @@ const ModalNewTask = ({ isOpen, onClose }: Props) => {
         <input
           type="text"
           className={inputStyles}
-          placeholder="Project Name"
-          value={projectName}
-          onChange={(e) => setProjectName(e.target.value)}
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <input
           className={inputStyles}
@@ -95,19 +96,67 @@ const ModalNewTask = ({ isOpen, onClose }: Props) => {
           onChange={(e) => setDescription(e.target.value)}
         />
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 gap-2">
-          <input
-            type="date"
-            className={inputStyles}
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-          <input
-            type="date"
-            className={inputStyles}
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
+          <select
+            name=""
+            id=""
+            className={selectStyles}
+            value={priority}
+            onChange={
+              (e) => setStatus(Status[e.target.value as keyof typeof Status]) //onchange we are passing in the status of the value that we selected.
+            }
+          >
+            <option value="">Select Status</option>
+            <option value={Priority.Urgent}>Urgent</option>
+            <option value={Priority.High}>High</option>
+            <option value={Priority.Medium}>Medium</option>
+            <option value={Priority.Low}>Low</option>
+            <option value={Priority.Backlog}>Backlog</option>
+          </select>
+          <select
+            name=""
+            id=""
+            className={selectStyles}
+            value={status}
+            onChange={
+              (e) => setStatus(Status[e.target.value as keyof typeof Status]) //onchange we are passing in the status of the value that we selected.
+            }
+          >
+            <option value="">Select Status</option>
+            <option value={Status.ToDo}>To Do</option>
+            <option value={Status.WorkinProgress}>Work In Progress</option>
+            <option value={Status.UnderReview}>Under Review</option>
+            <option value={Status.Completed}>Completed</option>
+          </select>
         </div>
+        <input
+          type="text"
+          className={inputStyles}
+          placeholder="Start Date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+        <input
+          type="text"
+          className={inputStyles}
+          placeholder="End Date"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+        />
+        <input
+          type="text"
+          className={inputStyles}
+          placeholder="Author UserID"
+          value={authorUserId}
+          onChange={(e) => setAuthorUserId(e.target.value)}
+        />
+        <input
+          type="text"
+          className={inputStyles}
+          placeholder="Assigned User Id"
+          value={assignedUserId}
+          onChange={(e) => setAssignedUserId(e.target.value)}
+        />
+
         <button
           type="submit"
           className={`mt-4 flex w-full justify-center rounded-md border border-transparent bg-blue-primary px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus-offset-2 ${
