@@ -129,14 +129,14 @@ const ModalNewTask = ({ isOpen, onClose }: Props) => {
           </select>
         </div>
         <input
-          type="text"
+          type="date"
           className={inputStyles}
           placeholder="Start Date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
         />
         <input
-          type="text"
+          type="date"
           className={inputStyles}
           placeholder="End Date"
           value={dueDate}
@@ -164,7 +164,7 @@ const ModalNewTask = ({ isOpen, onClose }: Props) => {
           }`}
           disabled={!isFormValid() || isLoading}
         >
-          {isLoading ? "Creating..." : "Create Project"}
+          {isLoading ? "Creating..." : "Create Task"}
         </button>
       </form>
     </Modal>
