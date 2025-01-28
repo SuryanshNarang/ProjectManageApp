@@ -1,4 +1,9 @@
-import { useCreateProjectMutation, useCreateTaskMutation } from "@/state/api";
+import {
+  Priority,
+  Status,
+  useCreateProjectMutation,
+  useCreateTaskMutation,
+} from "@/state/api";
 import Modal from "@/components/Modal";
 import React, { useState } from "react";
 import { formatISO } from "date-fns";
@@ -15,8 +20,8 @@ const ModalNewTask = ({ isOpen, onClose }: Props) => {
   // State for form inputs
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("");
-  const [priority, setPriority] = useState("");
+  const [status, setStatus] = useState<Status>(Status.ToDo);
+  const [priority, setPriority] = useState<Priority>(Priority.Backlog);
   const [tags, setTags] = useState("");
   const [startDate, setStartDate] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -31,24 +36,29 @@ const ModalNewTask = ({ isOpen, onClose }: Props) => {
     const formattedStartDate = formatISO(new Date(startDate), {
       representation: "complete",
     });
-    const formattedEndDate = formatISO(new Date(endDate), {
+    const formattedDueDate = formatISO(new Date(dueDate), {
       representation: "complete",
     });
 
     console.log("Form data:", {
-      projectName,
+      title,
       description,
       formattedStartDate,
-      formattedEndDate,
+      formattedDueDate,
     }); // Log the data
 
     try {
       // API call to create the project
-      await createProject({
-        projectName,
+      await createTask({
+        title,
         description,
+        status, //change the useState we can do this dynamically that is the use of enum: we can set the status bydefault to : TODO as there was error coming here.
+        priority,
+        tags,
         startDate: formattedStartDate,
-        endDate: formattedEndDate,
+        dueDate: formattedDueDate,
+        authorUserId: parseInt(authorUserId),
+        assignedUserId: parseInt(assignedUserId),
       }).unwrap(); // `unwrap()` helps catch errors more effectively
       console.log("Project created successfully!");
       onClose(); // Close the modal on successful project creation
