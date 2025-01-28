@@ -11,10 +11,11 @@ import { formatISO } from "date-fns";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  id: string;
 };
 // Made changes to ModalNew Project
-const ModalNewTask = ({ isOpen, onClose }: Props) => {
-  //
+const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
+  //Adding a project ID from the parent component
   const [createTask, { isLoading }] = useCreateTaskMutation();
 
   // State for form inputs
@@ -59,11 +60,12 @@ const ModalNewTask = ({ isOpen, onClose }: Props) => {
         dueDate: formattedDueDate,
         authorUserId: parseInt(authorUserId),
         assignedUserId: parseInt(assignedUserId),
+        projectId: Number(id), // Passing the project ID from the parent component
       }).unwrap(); // `unwrap()` helps catch errors more effectively
       console.log("Project created successfully!");
       onClose(); // Close the modal on successful project creation
     } catch (error) {
-      console.error("Error creating project:", error);
+      console.error("Error creating Task:", error);
     }
   };
 
@@ -102,10 +104,11 @@ const ModalNewTask = ({ isOpen, onClose }: Props) => {
             className={selectStyles}
             value={priority}
             onChange={
-              (e) => setStatus(Status[e.target.value as keyof typeof Status]) //onchange we are passing in the status of the value that we selected.
+              (e) =>
+                setPriority(Priority[e.target.value as keyof typeof Priority]) //onchange we are passing in the status of the value that we selected.
             }
           >
-            <option value="">Select Status</option>
+            <option value="">Select Priority</option>
             <option value={Priority.Urgent}>Urgent</option>
             <option value={Priority.High}>High</option>
             <option value={Priority.Medium}>Medium</option>

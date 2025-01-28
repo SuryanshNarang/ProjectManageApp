@@ -23,6 +23,8 @@ export default function Project() {
       <ModalNewTask
         isOpen={isModalNewTaskOpen}
         onClose={() => setIsModalNewTaskOpen(false)}
+        // taking project id from parent container so that there is no api error in creating the tasks
+        id={id}
       />
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
 
