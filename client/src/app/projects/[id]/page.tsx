@@ -18,10 +18,7 @@ export default function Project() {
   return (
     <div>
       {/* Header with tabs */}
-      <ModalNewTask
-        isOpen={isModalNewTaskOpen}
-        onclose={() => setIsModalNewTaskOpen(false)}
-      />
+     
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Only render the Board if the activeTab is "Board" */}
