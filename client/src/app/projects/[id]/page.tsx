@@ -6,6 +6,7 @@ import Board from "../BoardView";
 import List from "../ListView";
 import Timeline from "../TimelineView";
 import Table from "../TableView";
+import ModalNewTask from "@/components/ModalNewTask";
 // This file is a client component (because of "use client"),
 // so we use "useParams()" instead of receiving "params" as a prop.
 export default function Project() {
@@ -18,7 +19,11 @@ export default function Project() {
   return (
     <div>
       {/* Header with tabs */}
-     
+      {/* Check the component directory : we are importing this component from there. */}
+      <ModalNewTask
+        isOpen={isModalNewTaskOpen}
+        onClose={() => setIsModalNewTaskOpen(false)}
+      />
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Only render the Board if the activeTab is "Board" */}
