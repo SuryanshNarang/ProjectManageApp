@@ -180,6 +180,10 @@ export const api = createApi({
         { type: "Tasks", id: taskId }, //we dont have to refetch but only update 1 specific task
       ],
     }),
+    // CREATING SEARCH API
+    search: build.query<SearchResults, string>({
+      query: (query) => `search?query=${query}`, //check the controller we are grabbing the req.query here
+    }),
   }),
 });
 
@@ -191,4 +195,5 @@ export const {
   useCreateTaskMutation,
   useUpdateTaskStatusMutation, //used in BoardView under Tasks
   useDeleteProjectMutation,
+  useSearchQuery,
 } = api;

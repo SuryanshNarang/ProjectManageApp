@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 });
 app.use("/projects", projectRoutes); //  /projects is the prefix which will be used in every projectURL
 app.use("/tasks", taskRoutes);
-app.use("/search", searchRoutes); //flow: controller then route then mentioning here: then going to frontend.
+app.use("/search", searchRoutes); //flow: controller then route then mentioning here: then going to frontend.(state/api)
 // Server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
