@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchQuery } from "@/state/api";
 import { debounce } from "lodash";
+import Header from "@/components/Header";
 // No need of props as this is a new page for nextjs
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,7 +22,19 @@ const Search = () => {
   useEffect(() => {
     return handleSearch.cancel;
   }, [handleSearch.cancel]);
-  return <div>Search</div>;
+  return (
+    <div className="p-8 ">
+      <Header name="Search" />
+      <div>
+        <input
+          type="text"
+          placeholder="Search..."
+          className="w-1/2 rounded border p-3 shadow"
+          onChange={handleSearch}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default Search;
