@@ -9,31 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTasks = void 0;
+exports.search = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient(); // Initialize Prisma Client
 // We need to grab our tasks based on the projects. (so our project contains a list of tasks)
-const getTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { projectId } = req.query;
-    const projectIdInt = Number(projectId);
-    if (isNaN(projectIdInt)) {
-        return res.status(400).json({ message: "Invalid projectId" });
-    }
-    //instead of body this time its going to be query because this is the get Request.(getTasks as our projectId will be in queryparams)
+const search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { query } = req.query;
     try {
-        const tasks = yield prisma.task.findMany({
+        const task = yield prisma.task.findMany({
             where: {
-                projectId: Number(projectId), // Ensure it's a number
-            },
-            include: {
-                author: true,
-                assignee: true,
-                comments: true,
-                Attachment: true,
+                OR: [
+                    { title: { contains: query } },
+                    { description: { contains: query } },
+                ],
             },
         });
-        //its going to be the query param where our projectID will be at.(this will grab the tasks from the specific project id)
-        res.json(tasks);
     }
     catch (error) {
         console.error("Error retrieving tasks:", error);
@@ -42,4 +32,4 @@ const getTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .json({ message: `Error retrieving tasks  ${error.message}` }); // Send error response
     }
 });
-exports.getTasks = getTasks;
+exports.search = search;
