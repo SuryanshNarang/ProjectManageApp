@@ -24,6 +24,20 @@ const search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 ],
             },
         });
+        const project = yield prisma.project.findMany({
+            where: {
+                OR: [
+                    { projectName: { contains: query } },
+                    { description: { contains: query } },
+                ],
+            },
+        });
+        const users = yield prisma.user.findMany({
+            where: {
+                OR: [{ username: { contains: query } }],
+            },
+        });
+        res.json({ task, project, users }); // Return the results to frontend
     }
     catch (error) {
         console.error("Error retrieving tasks:", error);

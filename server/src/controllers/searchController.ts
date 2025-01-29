@@ -16,6 +16,22 @@ export const search = async (req: Request, res: Response): Promise<any> => {
         ],
       },
     });
+
+    const project = await prisma.project.findMany({
+      where: {
+        OR: [
+          { projectName: { contains: query as string } },
+          { description: { contains: query as string } },
+        ],
+      },
+    });
+
+    const users = await prisma.user.findMany({
+      where: {
+        OR: [{ username: { contains: query as string } }],
+      },
+    });
+    res.json({ task, project, users }); // Return the results to frontend
   } catch (error: any) {
     console.error("Error retrieving tasks:", error);
     res
