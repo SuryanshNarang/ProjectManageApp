@@ -57,6 +57,12 @@ export interface Task {
   comments?: Comment[];
   attachments?: Attachment[];
 }
+// before making our API call we need to define our return type
+export interface SearchResults {
+  task?: Task[];
+  project?: Project[];
+  users?: User[];
+}
 
 // Creating an API slice using Redux Toolkit Query.
 export const api = createApi({
@@ -177,8 +183,6 @@ export const api = createApi({
   }),
 });
 
-
-
 // take them as functions.
 export const {
   useGetProjectsQuery,
@@ -188,7 +192,3 @@ export const {
   useUpdateTaskStatusMutation, //used in BoardView under Tasks
   useDeleteProjectMutation,
 } = api;
-
-
-
-
