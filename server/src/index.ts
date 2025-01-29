@@ -7,7 +7,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import { log } from "console";
 import projectRoutes from "./routes/projectRoutes";
-import  taskRoutes from "./routes/taskRoutes";
+import taskRoutes from "./routes/taskRoutes";
+import searchRoutes from "./routes/searchRoutes";
 // Route IMports
 
 // configurations
@@ -27,8 +28,9 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
-app.use("/projects", projectRoutes);  //  /projects is the prefix which will be used in every projectURL 
-app.use("/tasks", taskRoutes);  
+app.use("/projects", projectRoutes); //  /projects is the prefix which will be used in every projectURL
+app.use("/tasks", taskRoutes);
+app.use("/search", searchRoutes);
 // Server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

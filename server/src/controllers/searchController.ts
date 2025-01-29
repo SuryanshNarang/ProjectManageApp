@@ -33,9 +33,11 @@ export const search = async (req: Request, res: Response): Promise<any> => {
     });
     res.json({ task, project, users }); // Return the results to frontend
   } catch (error: any) {
-    console.error("Error retrieving tasks:", error);
     res
       .status(500)
-      .json({ message: `Error retrieving tasks  ${error.message}` }); // Send error response
+      .json({ message: `Error performing search  ${error.message}` }); // Send error response
   }
 };
+
+// after this we are going to routes.
+

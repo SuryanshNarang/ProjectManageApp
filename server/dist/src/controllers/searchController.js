@@ -40,10 +40,10 @@ const search = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json({ task, project, users }); // Return the results to frontend
     }
     catch (error) {
-        console.error("Error retrieving tasks:", error);
         res
             .status(500)
-            .json({ message: `Error retrieving tasks  ${error.message}` }); // Send error response
+            .json({ message: `Error performing search  ${error.message}` }); // Send error response
     }
 });
 exports.search = search;
+// after this we are going to routes.
