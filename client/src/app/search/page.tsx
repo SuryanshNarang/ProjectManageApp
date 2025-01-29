@@ -4,6 +4,8 @@ import { useSearchQuery } from "@/state/api";
 import { debounce } from "lodash";
 import Header from "@/components/Header";
 import TaskCard from "@/components/TaskCard";
+import ProjectCard from "@/components/ProjectCard";
+import UserCard from "@/components/UserCard";
 // No need of props as this is a new page for nextjs
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
