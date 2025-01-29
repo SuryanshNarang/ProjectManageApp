@@ -1,4 +1,4 @@
-"use client"
+"use client";
 // use client is added specifically here because this is not a child of a client component its a seperate page
 import { useAppSelector } from "@/app/redux";
 import { useGetProjectsQuery, useGetTasksQuery } from "@/state/api";
@@ -74,9 +74,9 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
             locale={displayOptions.locale}
             columnWidth={displayOptions.viewMode === ViewMode.Month ? 150 : 100}
             listCellWidth="100px"
-            projectBackgroundColor={isDarkMode ? "#101214" : "#1f2937" }
-            projectProgressColor={isDarkMode ? "#1f2937": "#aeb8c2"}
-            projectProgressSelectedColor={isDarkMode ? "#000": "#9ba1a6"}
+            projectBackgroundColor={isDarkMode ? "#101214" : "#1f2937"}
+            projectProgressColor={isDarkMode ? "#1f2937" : "#aeb8c2"}
+            projectProgressSelectedColor={isDarkMode ? "#000" : "#9ba1a6"}
           />
         </div>
       </div>
@@ -85,3 +85,4 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
 };
 
 export default Timeline;
+// AFTER THIS WE WENT TO SEARCHPage FOR THAT we went to write its backend this page will search for anything we can search across tasks projects also users
