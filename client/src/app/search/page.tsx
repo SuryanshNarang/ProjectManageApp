@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchQuery } from "@/state/api";
 import { debounce } from "lodash";
 // No need of props as this is a new page for nextjs
@@ -18,6 +18,9 @@ const Search = () => {
     },
     500 //this will prevent overloading: we dont want to search on every letter
   );
+  useEffect(() => {
+    return handleSearch.cancel;
+  }, [handleSearch.cancel]);
   return <div>Search</div>;
 };
 
