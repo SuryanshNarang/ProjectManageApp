@@ -72,7 +72,7 @@ export const api = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL, // It reads the base URL from an environment variable (NEXT_PUBLIC_API_BASE_URL), so the URL can change without modifying the code.
   }),
   reducerPath: "api", // Defines the name for this API slice in the Redux store.
-  tagTypes: ["Projects", "Tasks"], //  Lists tags used for caching and invalidation.
+  tagTypes: ["Projects", "Tasks", "Users"], //  Lists tags used for caching and invalidation.
   endpoints: (build) => ({
     // this will allow us to make calls from FrontEnd
     getProjects: build.query<Project[], void>({
@@ -179,6 +179,11 @@ export const api = createApi({
         //since we are updating a specific task and doing it via taskID that's why we have to do this arrowfunction
         { type: "Tasks", id: taskId }, //we dont have to refetch but only update 1 specific task
       ],
+    }),
+    // User Page API
+    getUsers: build.query<User[], void>({
+      query: () => "users",
+      providesTags: ["Users"],
     }),
     // CREATING SEARCH API
     search: build.query<SearchResults, string>({
