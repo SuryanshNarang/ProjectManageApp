@@ -201,4 +201,5 @@ export const {
   useUpdateTaskStatusMutation, //used in BoardView under Tasks
   useDeleteProjectMutation,
   useSearchQuery,
+  useGetUsersQuery,
 } = api;
