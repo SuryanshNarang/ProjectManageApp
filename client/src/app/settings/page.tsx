@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import React from "react";
-
+// for now we have mockdata because we can't grab the user info but that's gonna be later where we require cognito and actual authentication
 const Settings = () => {
   const userSettings = {
     username: "Suryansh narang",
