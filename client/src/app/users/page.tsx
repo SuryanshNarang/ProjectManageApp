@@ -3,11 +3,25 @@ import { useGetUsersQuery } from "@/state/api";
 import React from "react";
 import { useAppSelector } from "../redux";
 import Header from "@/components/Header";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridToolbar,
+  GridToolbarContainer,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from "@mui/x-data-grid";
 import Image from "next/image";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
 // we made a backend for this. went in controller then router then index.
-
+const CustomToolbar = () => {
+  return (
+    <GridToolbarContainer className="toolbar flex gap-2">
+      <GridToolbarFilterButton />
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+};
 const columns: GridColDef[] = [
   { field: "userId", headerName: "ID", width: 100 },
   { field: "username", headerName: "Username", width: 150 },
@@ -46,6 +60,7 @@ const Users = () => {
           columns={columns}
           getRowId={(row) => row.userId}
           pagination
+          slots={{ toolbar: CustomToolbar }}
           className={dataGridClassNames}
           sx={dataGridSxStyles(isDarkMode)}
         />
