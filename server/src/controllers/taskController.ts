@@ -101,3 +101,36 @@ export const updateTaskStatus = async (
     res.status(500).json({ message: `Error updating tasks  ${error.message}` }); // Send error response
   }
 };
+
+// FOR PRIORITY PAGES..We want the priorities for specific Users.
+
+export const getUserTasks = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const { userId } = req.params;
+
+  //instead of body this time its going to be query because this is the get Request.(getTasks as our projectId will be in queryparams)
+  try {
+    const tasks = await prisma.task.findMany({
+      where: {
+        OR: [
+          { authorUserId: Number(userId) },
+          { assignedUserId: Number(userId) },
+        ],
+      },
+      include: {
+        author: true,
+        assignee: true,
+      },
+    });
+    //its going to be the query param where our projectID will be at.(this will grab the tasks from the specific project id)
+
+    res.json(tasks);
+  } catch (error: any) {
+    console.error("Error retrieving tasks:", error);
+    res
+      .status(500)
+      .json({ message: `Error retrieving tasks  ${error.message}` }); // Send error response
+  }
+};
