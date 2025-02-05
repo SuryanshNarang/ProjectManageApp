@@ -32,12 +32,12 @@ export const getTeams = async (req: Request, res: Response): Promise<void> => {
       })
     );
 
-    res.json(teams); // Send users as JSON response
+    res.json(teamsWithUsernames); // Send users as JSON response
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error occurred";
     res
       .status(500)
-      .json({ message: `Error retrieving users: ${errorMessage}` });
+      .json({ message: `Error retrieving teams: ${errorMessage}` });
   }
 };

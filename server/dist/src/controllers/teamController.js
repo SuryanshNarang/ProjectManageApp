@@ -34,13 +34,13 @@ const getTeams = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             });
             return Object.assign(Object.assign({}, team), { productOwnerUsername: productOwner === null || productOwner === void 0 ? void 0 : productOwner.username, projectManagerUsername: projectManager === null || projectManager === void 0 ? void 0 : projectManager.username });
         })));
-        res.json(teams); // Send users as JSON response
+        res.json(teamsWithUsernames); // Send users as JSON response
     }
     catch (error) {
         const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
         res
             .status(500)
-            .json({ message: `Error retrieving users: ${errorMessage}` });
+            .json({ message: `Error retrieving teams: ${errorMessage}` });
     }
 });
 exports.getTeams = getTeams;

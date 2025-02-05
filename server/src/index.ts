@@ -10,6 +10,7 @@ import projectRoutes from "./routes/projectRoutes";
 import taskRoutes from "./routes/taskRoutes";
 import userRoutes from "./routes/userRoutes";
 import searchRoutes from "./routes/searchRoutes";
+import teamRoutes from "./routes/teamRoutes";
 // Route IMports
 
 // configurations
@@ -33,6 +34,7 @@ app.use("/projects", projectRoutes); //  /projects is the prefix which will be u
 app.use("/tasks", taskRoutes);
 app.use("/search", searchRoutes); //flow: controller then route then mentioning here: then going to frontend.(state/api)
 app.use("/users", userRoutes);
+app.use("/teams", teamRoutes);
 // Server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

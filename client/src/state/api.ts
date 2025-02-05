@@ -64,6 +64,14 @@ export interface SearchResults {
   users?: User[];
 }
 
+//creating an interface for Team{
+export interface Team {
+  teamId: number;
+  teamName: string;
+  productOwnerUserId?: number;
+  projectManagerUserId?: number;
+}
+
 // Creating an API slice using Redux Toolkit Query.
 export const api = createApi({
   // `baseQuery` is a function that handles API requests. Here, we're setting up the base URL for all API calls.
@@ -72,7 +80,7 @@ export const api = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL, // It reads the base URL from an environment variable (NEXT_PUBLIC_API_BASE_URL), so the URL can change without modifying the code.
   }),
   reducerPath: "api", // Defines the name for this API slice in the Redux store.
-  tagTypes: ["Projects", "Tasks", "Users"], //  Lists tags used for caching and invalidation.
+  tagTypes: ["Projects", "Tasks", "Users", "Teams"], //  Lists tags used for caching and invalidation.
   endpoints: (build) => ({
     // this will allow us to make calls from FrontEnd
     getProjects: build.query<Project[], void>({
@@ -189,6 +197,10 @@ export const api = createApi({
     search: build.query<SearchResults, string>({
       query: (query) => `search?query=${query}`, //check the controller we are grabbing the req.query here
     }),
+    getTeams: build.query<Team[], void>({
+      query: () => "teams",
+      providesTags: ["Teams"],
+    }),
   }),
 });
 
@@ -202,4 +214,5 @@ export const {
   useDeleteProjectMutation,
   useSearchQuery,
   useGetUsersQuery,
+  useGetTeamsQuery,
 } = api;
