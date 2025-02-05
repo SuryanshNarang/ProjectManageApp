@@ -10,19 +10,20 @@ export const getTeams = async (req: Request, res: Response): Promise<void> => {
     const teamsWithUsernames = await Promise.all(
       //For each team, it performs an asynchronous operation to fetch data from the database.
       teams.map(async (team: any) => {
-        const productOwner = await prisma.user.findUnique({
-          //for relations
-          where: {
-            userId: team.productOwnerUserId!, //check schema we have a productOwnerUserId
-          }, //we are checking what the product user owner id is:
-          select: { username: true },
-        });
-        const projectManager = await prisma.user.findUnique({
-          where: {
-            userId: team.projectManagerUserId!,
-          },
-          select: { username: true },
-        });
+        const productOwner = team.productOwnerUserId
+        ? await prisma.user.findUnique({
+            where: { userId: team.productOwnerUserId },
+            select: { username: true },
+          })
+        : null;
+      
+      const projectManager = team.projectManagerUserId
+        ? await prisma.user.findUnique({
+            where: { userId: team.projectManagerUserId },
+            select: { username: true },
+          })
+        : null;
+      
 
         return {
           ...team,
