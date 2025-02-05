@@ -8,6 +8,6 @@ import {
 const router = Router();
 router.get("/", getTasks);
 router.post("/", createTask);
-router.get("/user/:userId", getUserTasks); //Used for Priority Page
+router.get("/user/:userId", getUserTasks); //Used for Priority
 router.patch("/:taskId/status", updateTaskStatus); ///123/status
 export default router;

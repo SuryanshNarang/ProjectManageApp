@@ -178,7 +178,7 @@ export const api = createApi({
         method: "POST",
         body: task,
       }),
-      invalidatesTags: ["Tasks"], //we are updating the entire list we can get refetched the entire list.
+      invalidatesTags: ["Tasks"],
     }),
     updateTaskStatus: build.mutation<Task, { taskId: number; status: string }>({
       //used in BOardView.

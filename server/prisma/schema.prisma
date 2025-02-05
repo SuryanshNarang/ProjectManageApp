@@ -6,7 +6,7 @@
 
 generator client {
   provider      = "prisma-client-js"
-
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -15,75 +15,76 @@ datasource db {
 }
 
 model User {
-  userId            Int              @id @default(autoincrement())
-  cognitoId         String           @unique
-  username          String           @unique
+  userId            Int     @id @default(autoincrement())
+  cognitoId         String  @unique
+  username          String  @unique
   profilePictureUrl String?
-  teamId            Int? //The ? indicates that this relationship is optional, meaning the user might not belong to a team.
-  authoredTasks     Task[]           @relation("TaskAuthor") //a user can create multiple tasks
-  assignedTasks     Task[]           @relation("TaskAssignee") //This means a user can be assigned multiple tasks.
-  taskassignment    TaskAssignment[] //This represents a connection to the TaskAssignment model, likely used to track specific details about task assignments (e.g., who assigned the task, deadlines, etc.).
-  attachments       Attachment[] //This represents the files or documents a user has uploaded or is linked to.
-  comments          Comment[] //This represents the comments made by the user, likely on tasks or other entities.
-  team              Team?            @relation(fields: [teamId], references: [id]) //This represents the team the user belongs to. The teamId field in the user model connects to the id field in the Team model.
+  teamId            Int?
+
+  authoredTasks   Task[]           @relation("TaskAuthor")
+  assignedTasks   Task[]           @relation("TaskAssignee")
+  taskAssignments TaskAssignment[]
+  attachments     Attachment[]
+  comments        Comment[]
+  team            Team?            @relation(fields: [teamId], references: [id])
 }
 
 model Team {
   id                   Int           @id @default(autoincrement())
   teamName             String
-  productOwnerUserId   Int? //Stores the ID of the user who is the Product Owner for this team.
-  projectManagerUserId Int? //Stores the ID of the user who is the Project Manager for this team.
-  projectTeams         ProjectTeam[] //Relation to another model:: This is useful if multiple teams are working on multiple projects
-  user                 User[] // Represents the list of users who belong to this team.
+  productOwnerUserId   Int?
+  projectManagerUserId Int?
+  projectTeams         ProjectTeam[]
+  user                 User[]
 }
 
 model Project {
   id           Int           @id @default(autoincrement())
-  projectName  String
+  name         String
   description  String?
   startDate    DateTime?
   endDate      DateTime?
-  tasks        Task[] //Represents all the tasks associated with this project.
-  projectTeams ProjectTeam[] //Represents a many-to-many relationship between this project and multiple teams. Purpose: This shows which teams are working on this project.
+  tasks        Task[]
+  projectTeams ProjectTeam[]
 }
 
 model ProjectTeam {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   teamId    Int
   projectId Int
-  team      Team?    @relation(fields: [teamId], references: [id]) //Links a specific team to a project.
-  //Allows the database to identify which team is involved in which project using the teamId as a foreign key.
-  project   Project? @relation(fields: [projectId], references: [id]) //If the project field is intended to connect the ProjectTeam to a Project
+  team      Team    @relation(fields: [teamId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id])
 }
 
 model Task {
-  id              Int              @id @default(autoincrement())
-  title           String
-  description     String?
-  status          String?
-  priority        String?
-  tags            String? 
-  startDate       DateTime?
-  dueDate         DateTime?
-  points          Int?
-  projectId       Int
-  authorUserId    Int
-  assignedUserId  Int?
-  project         Project         @relation(fields: [projectId], references: [id])
-  author          User             @relation("TaskAuthor", fields: [authorUserId], references: [userId]) //person who created the task
-  assignee        User?            @relation("TaskAssignee", fields: [assignedUserId], references: [userId]) //person to whom the task was assigned
+  id             Int       @id @default(autoincrement())
+  title          String
+  description    String?
+  status         String?
+  priority       String?
+  tags           String?
+  startDate      DateTime?
+  dueDate        DateTime?
+  points         Int?
+  projectId      Int
+  authorUserId   Int
+  assignedUserId Int?
+
+  project         Project          @relation(fields: [projectId], references: [id])
+  author          User             @relation("TaskAuthor", fields: [authorUserId], references: [userId])
+  assignee        User?            @relation("TaskAssignee", fields: [assignedUserId], references: [userId])
   taskAssignments TaskAssignment[]
+  attachments     Attachment[]
   comments        Comment[]
-  userUserId      Int?
-  Attachment      Attachment[]
 }
 
 model TaskAssignment {
-  id     Int  @id @default(autoincrement())
+  id     Int @id @default(autoincrement())
   userId Int
   taskId Int
-  user   User @relation(fields: [userId], references: [userId]) //foreign key.
-  task   Task @relation(fields: [taskId], references: [id])
+
+  user User @relation(fields: [userId], references: [userId])
+  task Task @relation(fields: [taskId], references: [id])
 }
 
 model Attachment {
@@ -91,9 +92,10 @@ model Attachment {
   fileURL      String
   fileName     String?
   taskId       Int
-  uploadedById Int //This model manages task-related attachments, associating each file with a specific task and the user who uploaded it.
-  task         Task    @relation(fields: [taskId], references: [id])
-  uploadedBy   User    @relation(fields: [uploadedById], references: [userId])
+  uploadedById Int
+
+  task       Task @relation(fields: [taskId], references: [id])
+  uploadedBy User @relation(fields: [uploadedById], references: [userId])
 }
 
 model Comment {
@@ -101,6 +103,7 @@ model Comment {
   text   String
   taskId Int
   userId Int
-  task   Task   @relation(fields: [taskId], references: [id])
-  user   User   @relation(fields: [userId], references: [userId])
+
+  task Task @relation(fields: [taskId], references: [id])
+  user User @relation(fields: [userId], references: [userId])
 }

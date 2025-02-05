@@ -11,10 +11,10 @@ import { formatISO } from "date-fns";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  id: string;
+  id?: string | null; //used in ReusablePriorityPage changed to ?
 };
 // Made changes to ModalNew Project
-const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
+const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
   //Adding a project ID from the parent component
   const [createTask, { isLoading }] = useCreateTaskMutation();
 
@@ -28,11 +28,11 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
   const [dueDate, setDueDate] = useState("");
   const [authorUserId, setAuthorUserId] = useState("");
   const [assignedUserId, setAssignedUserId] = useState("");
-
+  const [projectId, setProjectId] = useState(""); // we can have user to input the projectID
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent page refresh
     // check the api export interface Task alot of things are optional there.
-    if (!title || !authorUserId) return;
+    if (!title || !authorUserId || !(id !== null || projectId)) return;
 
     const formattedStartDate = formatISO(new Date(startDate), {
       representation: "complete",
@@ -60,7 +60,7 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
         dueDate: formattedDueDate,
         authorUserId: parseInt(authorUserId),
         assignedUserId: parseInt(assignedUserId),
-        projectId: Number(id), // Passing the project ID from the parent component
+        projectId: id !== null ? Number(id) : Number(projectId), // Passing the project ID from the parent component
       }).unwrap(); // `unwrap()` helps catch errors more effectively
       console.log("Task created successfully!");
       onClose(); // Close the modal on successful project creation
@@ -70,7 +70,7 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
   };
 
   const isFormValid = () => {
-    return title && authorUserId;
+    return title && authorUserId && !(id !== null || projectId);
   };
   const selectStyles =
     "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus-outline-none";
@@ -159,7 +159,15 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
           value={assignedUserId}
           onChange={(e) => setAssignedUserId(e.target.value)}
         />
-
+        {id === null && (
+          <input
+            type="text"
+            className={inputStyles}
+            placeholder="Project ID"
+            value={projectId}
+            onChange={(e) => setProjectId(e.target.value)}
+          />
+        )}
         <button
           type="submit"
           className={`mt-4 flex w-full justify-center rounded-md border border-transparent bg-blue-primary px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus-offset-2 ${
