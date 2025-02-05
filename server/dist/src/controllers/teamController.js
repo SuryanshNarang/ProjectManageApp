@@ -20,12 +20,19 @@ const getTeams = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         //For each team, it performs an asynchronous operation to fetch data from the database.
         teams.map((team) => __awaiter(void 0, void 0, void 0, function* () {
             const productOwner = yield prisma.user.findUnique({
-                //for relations   
+                //for relations
                 where: {
                     userId: team.productOwnerUserId, //check schema we have a productOwnerUserId
                 }, //we are checking what the product user owner id is:
                 select: { username: true },
             });
+            const projectManager = yield prisma.user.findUnique({
+                where: {
+                    userId: team.projectManagerUserId,
+                },
+                select: { username: true },
+            });
+            return Object.assign(Object.assign({}, team), { productOwnerUsername: productOwner === null || productOwner === void 0 ? void 0 : productOwner.username, projectManagerUsername: projectManager === null || projectManager === void 0 ? void 0 : projectManager.username });
         })));
         res.json(teams); // Send users as JSON response
     }
