@@ -36,7 +36,9 @@ app.use("/search", searchRoutes); //flow: controller then route then mentioning 
 app.use("/users", userRoutes);
 app.use("/teams", teamRoutes);
 // Server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const port = Number(process.env.PORT) || 3000;
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server running on port ${port}`);
 });
+//so that our server can run on AWS WE modified it:127.0.0.1 (localhost) only allows connections from the same machine.
+//0.0.0.0 allows connections from any IP address, making the server accessible from other devices (e.g., your browser or another server).
