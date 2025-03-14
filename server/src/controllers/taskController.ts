@@ -21,8 +21,9 @@ export const getTasks = async (req: Request, res: Response): Promise<any> => {
         author: true,
         assignee: true,
         comments: true,
-        Attachment: true,
+        attachments: { include: { uploadedBy: true } }, // Ensure this is correct
       },
+      
     });
     //its going to be the query param where our projectID will be at.(this will grab the tasks from the specific project id)
 
