@@ -7,6 +7,7 @@ import { EllipsisVertical, MessageSquareMore, Plus } from "lucide-react";
 import { format } from "date-fns";
 import Image from "next/image";
 // BoardView is the parent component. It fetches the list of tasks (tasks), manages the modal state (setIsModalNewTaskOpen), and provides the logic for moving tasks (moveTask).
+import { ConnectDragSource } from "react-dnd";
 
 type BoardProps = {
   id: string;
