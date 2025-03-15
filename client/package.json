@@ -2,10 +2,9 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "NODE_OPTIONS='--experimental-json-modules' next build && next export",
+    "build": "cross-env NODE_OPTIONS='--experimental-json-modules' next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -45,6 +44,7 @@
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
+    "cross-env": "^7.0.3",
     "eslint": "^9.22.0",
     "eslint-config-next": "^15.1.2",
     "postcss": "^8",
