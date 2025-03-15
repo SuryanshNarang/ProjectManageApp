@@ -1,4 +1,4 @@
-import { defineConfig } from 'eslint-define-config'; // Import ESLint config definition helper
+import { defineConfig } from 'eslint';
 
 export default defineConfig({
   parserOptions: {
