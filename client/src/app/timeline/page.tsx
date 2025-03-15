@@ -7,12 +7,12 @@ import { DisplayOption, Gantt, Task, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
 import Header from "@/components/Header";
 
-type Props = {
+interface Props {
   id: string;
   setIsModalNewTaskOpen: (isOpen: boolean) => void;
-};
+}
 
-const Timeline: React.FC<Props> = ({ id, setIsModalNewTaskOpen }: Props) => {
+const Timeline: React.FC<Props> = ({ id, setIsModalNewTaskOpen }) => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const { data: project, isLoading, isError } = useGetProjectsQuery();
   const [displayOptions, setDisplayOptions] = useState<DisplayOption>({
@@ -30,7 +30,7 @@ const Timeline: React.FC<Props> = ({ id, setIsModalNewTaskOpen }: Props) => {
       type: "task",
       progress: 50,
       isDisabled: false,
-    })) as Task[];
+    }));
   }, [project]);
 
   const handleViewModeChange = (
