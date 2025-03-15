@@ -1,30 +1,14 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-import ts from "@typescript-eslint/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
+import js from "@eslint/js";
+import ts from "typescript-eslint";
+import next from "@next/eslint-plugin-next/config";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+export default [
+  js.configs.recommended,
+  ts.configs.recommended,
+  next.configs.recommended,
   {
-    languageOptions: {
-      parser: tsParser,
-    },
-    plugins: {
-      "@typescript-eslint": ts,
-    },
     rules: {
-      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-      "@typescript-eslint/no-explicit-any": "warn",
+      "no-unused-vars": "warn", // Change from 'error' to 'warn' if needed
     },
   },
 ];
-
-export default eslintConfig;
