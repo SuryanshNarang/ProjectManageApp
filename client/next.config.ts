@@ -4,7 +4,10 @@ const nextConfig: NextConfig = {
   output: "export",
   reactStrictMode: true,
   trailingSlash: true,
-  distDir: "out", // Ensures build output is consistent
+  experimental: {
+    workerThreads: false,
+    cpus: 1,
+  },
 };
 
 export default nextConfig;
