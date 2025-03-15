@@ -1,4 +1,6 @@
-module.exports = {
+import { defineConfig } from 'eslint-define-config'; // Import ESLint config definition helper
+
+export default defineConfig({
   parserOptions: {
     sourceType: 'module',  // Ensures that ESLint parses the code as an ES module
     ecmaVersion: 2021, // Allows the use of modern ECMAScript features
@@ -29,4 +31,4 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off', // Disable explicit return type enforcement on functions
     '@typescript-eslint/no-var-requires': 'off', // Disable the restriction on require statements (useful for Next.js)
   },
-};
+});
