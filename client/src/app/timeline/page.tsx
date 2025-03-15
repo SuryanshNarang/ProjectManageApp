@@ -12,7 +12,7 @@ type Props = {
   setIsModalNewTaskOpen: (isOpen: boolean) => void;
 };
 
-const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
+const Timeline: React.FC<Props> = ({ id, setIsModalNewTaskOpen }: Props) => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
   const { data: project, isLoading, isError } = useGetProjectsQuery();
   const [displayOptions, setDisplayOptions] = useState<DisplayOption>({
@@ -27,7 +27,7 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
       end: new Date(proj.endDate as string),
       name: proj.projectName,
       id: `Task-${proj.id}`,
-      type: "task", // "task" is valid as Task["type"] expects a string matching predefined values
+      type: "task",
       progress: 50,
       isDisabled: false,
     })) as Task[];
