@@ -15,16 +15,19 @@ export const getTasks = async (req: Request, res: Response): Promise<any> => {
   try {
     const tasks = await prisma.task.findMany({
       where: {
-        projectId: Number(projectId), // Ensure it's a number
+        projectId: Number(projectId),
       },
       include: {
         author: true,
         assignee: true,
         comments: true,
-        attachments: { include: { uploadedBy: true } }, // Ensure this is correct
+        attachments: { // Ensure the relation is correctly referenced
+          include: { uploadedBy: true },
+        },
       },
-      
     });
+    
+      
     //its going to be the query param where our projectID will be at.(this will grab the tasks from the specific project id)
 
     res.json(tasks);

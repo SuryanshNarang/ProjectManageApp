@@ -23,13 +23,15 @@ const getTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const tasks = yield prisma.task.findMany({
             where: {
-                projectId: Number(projectId), // Ensure it's a number
+                projectId: Number(projectId),
             },
             include: {
                 author: true,
                 assignee: true,
                 comments: true,
-                Attachment: true,
+                attachments: {
+                    include: { uploadedBy: true },
+                },
             },
         });
         //its going to be the query param where our projectID will be at.(this will grab the tasks from the specific project id)
