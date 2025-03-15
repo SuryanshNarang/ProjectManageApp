@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build && next export",
+    "build": "NODE_OPTIONS='--experimental-json-modules' next build && next export",
     "start": "next start",
     "lint": "next lint"
   },
