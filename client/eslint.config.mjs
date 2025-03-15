@@ -10,6 +10,7 @@ module.exports = {
     node: true, // To handle Node.js specific code
     browser: true, // For browser-specific code
     es2021: true, // For modern ECMAScript features
+    module: true,  
   },
   extends: [
     'eslint:recommended', // Basic linting rules
