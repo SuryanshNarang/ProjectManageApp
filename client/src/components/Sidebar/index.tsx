@@ -68,7 +68,7 @@ const Sidebar = () => {
         {/* TEAM logo with Image*/}
         <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
           {/* all the images should be in public folder */}
-          <Image src="/logo.png" alt="logo" width={40} height={40} />
+          <Image src="https://pm-s3-images-suryansh.s3.ap-south-1.amazonaws.com/tmp_4a889db6-a9fa-457c-8da3-c3a14be8795b.jpeg-removebg-preview-300x143.png.png" alt="logo" width={40} height={40} />
           <div>
             <h3 className="text-md font-bold tracking-wide dark:text-gray-200">
               TIE Team
