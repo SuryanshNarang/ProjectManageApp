@@ -1,23 +1,18 @@
 FROM node:18-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy dependencies
+# Copy package and Prisma schema early for better caching
 COPY package*.json ./
 COPY tsconfig.json ./
 COPY prisma ./prisma
 
-# Install dependencies
 RUN npm install
 
-# Copy source code
+# Copy all source files
 COPY . .
 
-# Build TypeScript
 RUN npm run build
-
-# Prisma generate
 RUN npx prisma generate
 
 EXPOSE 4000
