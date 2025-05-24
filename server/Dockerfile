@@ -1,20 +1,18 @@
-# server/Dockerfile
-
 FROM node:18-alpine
 
 # Set working directory
 WORKDIR /app
 
 # Copy dependencies
-COPY server/package*.json ./
-COPY server/tsconfig.json ./
-COPY server/prisma ./prisma
+COPY package*.json ./
+COPY tsconfig.json ./
+COPY prisma ./prisma
 
-# Install deps
+# Install dependencies
 RUN npm install
 
-# Copy source
-COPY server .
+# Copy source code
+COPY . .
 
 # Build TypeScript
 RUN npm run build
